@@ -1,4 +1,4 @@
 import app from "./app.js"
 
 
-app.listen(3001, () => console.log("server esta rodando"))
+app.listen(3002, () => console.log("server esta rodando"))
