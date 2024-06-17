@@ -1,6 +1,6 @@
 import Sequelize, { Model } from "sequelize";
 import bcrypt from "bcrypt";
-import { password } from "../../config/database";
+//import { password } from "../../config/database";
 
 class User extends Model {
     static init(sequelize) {
@@ -8,7 +8,7 @@ class User extends Model {
             {
                 name: Sequelize.STRING,
                 email: Sequelize.STRING,
-                password: Sequelize.VIRTUAL,  // Corrigido para usar Sequelize.VIRTUAL
+                password: Sequelize.VIRTUAL,
                 password_hash: Sequelize.STRING,
                 admin: Sequelize.BOOLEAN,
             },
@@ -27,7 +27,7 @@ class User extends Model {
     }
 
     async checkPassword(password) {
-        return bcrypt.compare(password, this.user.password_hash);
+        return bcrypt.compare(password, this.password_hash);
     }
 }
 

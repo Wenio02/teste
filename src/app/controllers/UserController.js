@@ -8,7 +8,7 @@ import User from "../models/User";
 class UserController {
     async store(request, response) {
 
-        const schema = yup.object({
+        const schema = Yup.object({
             name: Yup.string().required(),
             email: Yup.string().email().required(),
             password: Yup.string().min(6).required(),
@@ -22,7 +22,7 @@ class UserController {
         }
 
 
-        const { name, email, passworrd, admin } = request.body
+        const { name, email, password, admin } = request.body
 
         const userExists = await User.findOne({
             where: {
