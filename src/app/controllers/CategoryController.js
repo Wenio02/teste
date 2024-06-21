@@ -22,9 +22,9 @@ class CategoryController {
 
     const { name } = request.body
 
-    let path; // Inicialize path como undefined
+    let path;
     if (request.file) {
-      path = request.file.filename; // Apenas atribua o filename se request.file existir
+      path = request.file.filename;
     }
 
     const categoryExists = await Category.findOne({
@@ -85,4 +85,4 @@ class CategoryController {
   }
 }
 
-export default new CategoryController()
+export default new CategoryController();

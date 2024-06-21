@@ -23,9 +23,9 @@ static init(sequelize){
         return this;
 }
 
-static associations(models) {
+static associate(models) {
     this.belongsTo(models.Category, {
-        foreignKey: "Ccategory_id",
+        foreignKey: "category_id",
         as: "category",
     });
 }
