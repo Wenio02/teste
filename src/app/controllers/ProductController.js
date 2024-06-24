@@ -1,7 +1,7 @@
-import * as Yup from 'yup';
-import Product from '../models/Products';
-import Category from '../models/Category';
-import User from '../models/User';
+import * as Yup from 'yup'
+import Product from '../models/Product'
+import Category from '../models/Category'
+import User from '../models/User'
 
 class ProductController {
   async store(request, response) {
@@ -11,35 +11,34 @@ class ProductController {
         price: Yup.number().required(),
         category_id: Yup.number().required(),
         offer: Yup.boolean(),
-      });
+      })
 
       try {
-        await schema.validateSync(request.body, { abortEarly: false });
+        await schema.validateSync(request.body, { abortEarly: false })
       } catch (err) {
-        return response.status(400).json({ error: err.errors });
+        return response.status(400).json({ error: err.errors })
       }
 
-      const { admin: isAdmin } = await User.findByPk(request.userId);
+      const { admin: isAdmin } = await User.findByPk(request.userId)
 
       if (!isAdmin) {
-        return response.status(401).json();
+        return response.status(401).json()
       }
 
-      const { filename: path } = request.file;
-      const { name, price, category_id, offer } = request.body;
+      const { filename: path } = request.file
+      const { name, price, category_id, offer } = request.body
 
       const product = await Product.create({
         name,
-        price,
+        price: price,
         category_id,
         path,
         offer,
-      });
+      })
 
-      return response.json(product);
+      return response.json(product)
     } catch (err) {
-      console.log(err);
-      return response.status(500).json({ error: 'Failed to create product' });
+      console.log(err)
     }
   }
 
@@ -52,9 +51,9 @@ class ProductController {
           attributes: ['id', 'name'],
         },
       ],
-    });
+    })
 
-    return response.json(products);
+    return response.json(products)
   }
 
   async update(request, response) {
@@ -64,41 +63,36 @@ class ProductController {
         price: Yup.number(),
         category_id: Yup.number(),
         offer: Yup.boolean(),
-      });
+      })
 
       try {
-        await schema.validateSync(request.body, { abortEarly: false });
+        await schema.validateSync(request.body, { abortEarly: false })
       } catch (err) {
-        return response.status(400).json({ error: err.errors });
+        return response.status(400).json({ error: err.errors })
       }
 
-      const { admin: isAdmin } = await User.findByPk(request.userId);
+      const { admin: isAdmin } = await User.findByPk(request.userId)
 
       if (!isAdmin) {
-        return response.status(401).json();
+        return response.status(401).json()
       }
 
-      const { id } = request.params;
+      const { id } = request.params
 
-      const product = await Product.findByPk(id);
+      const product = await Product.findByPk(id)
 
       if (!product) {
         return response
           .status(401)
-          .json({ error: 'Make sure your product ID is correct' });
+          .json({ error: 'Make sure your product ID is correct' })
       }
 
-      let path;
+      let path
       if (request.file) {
-        path = request.file.filename;
+        path = request.file.filename
       }
 
-      const { name, price, category_id, offer } = request.body;
-
-      const categoryExists = await Category.findByPk(category_id);
-      if (!categoryExists) {
-        return response.status(400).json({ error: 'Category ID not found' });
-      }
+      const { name, price, category_id, offer } = request.body
 
       await Product.update(
         {
@@ -109,14 +103,13 @@ class ProductController {
           offer,
         },
         { where: { id } }
-      );
+      )
 
-      return response.status(200).json();
+      return response.status(200).json()
     } catch (err) {
-      console.log(err);
-      return response.status(500).json({ error: 'Failed to update product' });
+      console.log(err)
     }
   }
 }
 
-export default new ProductController();
+export default new ProductController()
